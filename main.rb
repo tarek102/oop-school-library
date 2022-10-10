@@ -11,9 +11,9 @@ def start_app(app, choice)
   when 4
     app.create_book
   when 5
-    app.create_rental
+    app.rentals.create_rental(app.books, app.people)
   when 6
-    app.list_rentals
+    app.rentals.list_rentals(app.people)
   else
     puts 'Invalid choice'
   end

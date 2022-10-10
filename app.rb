@@ -3,12 +3,13 @@ require_relative 'student'
 require_relative 'teacher'
 require_relative 'rental'
 require_relative 'person'
+require_relative './rental_records'
 
 class App
   attr_accessor :rentals, :books, :people
 
-  def initialize
-    @rentals = []
+  def initialize(rental_records = RentalRecords.new)
+    @rentals = rental_records
     @books = []
     @people = []
   end
@@ -59,6 +60,16 @@ class App
     @people << teacher
   end
 
+  def list_books
+    if @books.length.positive?
+      @books.each do |book|
+        puts "Title: \"#{book.title}\", Author: #{book.author}"
+      end
+    else
+      puts 'The book list is empty'
+    end
+  end
+
   def list_people
     if @people.length.positive?
       @people.each do |person|
@@ -77,54 +88,5 @@ class App
     book = Book.new(title, author)
     @books << book
     puts 'Book created successfully'
-  end
-
-  def list_books
-    if @books.length.positive?
-      @books.each do |book|
-        puts "Title: \"#{book.title}\", Author: #{book.author}"
-      end
-    else
-      puts 'The book list is empty'
-    end
-  end
-
-  def create_rental
-    return unless @books.length.positive?
-
-    puts 'Select a book from the following list by number'
-    @books.each_with_index do |book, index|
-      puts "#{index}) Title: \"#{book.title}\", Author: #{book.author}"
-    end
-    book_choice = gets.chomp.to_i
-    puts 'select a person from the following list by number (not id)'
-    return unless @people.length.positive?
-
-    @people.each_with_index do |person, i|
-      puts "#{i}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
-    end
-    person_choice = gets.chomp.to_i
-    puts 'Date: '
-    date_choice = gets.chomp
-    rental = Rental.new(date_choice, @people[person_choice], @books[book_choice])
-    @rentals << rental
-    puts 'Rental created successfully'
-  end
-
-  def list_rentals
-    if @rentals.length.positive?
-      print 'ID of person : '
-      person_id = gets.chomp.to_i
-      @people.each do |person|
-        next unless person.id == person_id
-
-        person.rentals.each_with_index do |rental, _i|
-          puts " \n Rentals: \n Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
-        end
-      end
-
-    else
-      puts 'Rentals list is empty'
-    end
   end
 end
