@@ -3,14 +3,16 @@ require_relative 'student'
 require_relative 'teacher'
 require_relative 'rental'
 require_relative 'person'
+require_relative 'books'
 
 class App
   attr_accessor :rentals, :books, :people
 
-  def initialize
+  def initialize ()
     @rentals = []
     @books = []
     @people = []
+    @books = Books.new(@books)
   end
 
   def create_person
@@ -69,25 +71,6 @@ class App
     end
   end
 
-  def create_book
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-    book = Book.new(title, author)
-    @books << book
-    puts 'Book created successfully'
-  end
-
-  def list_books
-    if @books.length.positive?
-      @books.each do |book|
-        puts "Title: \"#{book.title}\", Author: #{book.author}"
-      end
-    else
-      puts 'The book list is empty'
-    end
-  end
 
   def create_rental
     return unless @books.length.positive?
@@ -125,6 +108,49 @@ class App
 
     else
       puts 'Rentals list is empty'
+    end
+  end
+
+  # start app
+
+  def options
+    puts 'Welcome to school library App'
+
+    loop do
+      puts 'Please choose an option by entering a number:'
+      puts '1 - List all books'
+      puts '2 - List all people'
+      puts '3 - Create a person'
+      puts '4 - Create a book'
+      puts '5 - Create a rental'
+      puts '6 - List all rentals fr a given person id'
+      puts '7 - Exit'
+      choice = gets.chomp.to_i
+      if choice == 7
+        puts 'Thank you fr using our library'
+        break
+      end
+
+      start_app(choice)
+    end
+  end
+
+  def start_app(choice)
+    case choice
+    when 1
+      @books.list_books
+    when 2
+      app.list_people
+    when 3
+      app.create_person
+    when 4
+      @books.create_book
+    when 5
+      app.create_rental
+    when 6
+      app.list_rentals
+    else
+      puts 'Invalid choice'
     end
   end
 end
