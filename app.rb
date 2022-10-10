@@ -3,12 +3,14 @@ require_relative 'student'
 require_relative 'teacher'
 require_relative 'rental'
 require_relative 'person'
+require 'pry'
 
 class App
   attr_accessor :rentals, :books, :people
 
   def initialize
     @rentals = []
+    binding.pry
     @books = []
     @people = []
   end
