@@ -13,4 +13,12 @@ class Book
     @rentals.push(rental)
     person.rentals.push(rental)
   end
+
+  def to_json(*_args)
+    {
+      JSON.create_id => self.class.name,
+      'title' => @title,
+      'author' => @author
+    }
+  end
 end
