@@ -4,13 +4,14 @@ require_relative 'teacher'
 require_relative 'rental'
 require_relative 'person'
 require_relative './rental_records'
+require_relative 'book_records'
 
 class App
   attr_accessor :rentals, :books, :people
 
   def initialize(rental_records = RentalRecords.new)
     @rentals = rental_records
-    @books = []
+    @books = BookRecords.new
     @people = []
   end
 
@@ -60,15 +61,7 @@ class App
     @people << teacher
   end
 
-  def list_books
-    if @books.length.positive?
-      @books.each do |book|
-        puts "Title: \"#{book.title}\", Author: #{book.author}"
-      end
-    else
-      puts 'The book list is empty'
-    end
-  end
+
 
   def list_people
     if @people.length.positive?
@@ -80,13 +73,5 @@ class App
     end
   end
 
-  def create_book
-    print 'Title: '
-    title = gets.chomp
-    print 'Author: '
-    author = gets.chomp
-    book = Book.new(title, author)
-    @books << book
-    puts 'Book created successfully'
-  end
+  
 end
