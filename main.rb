@@ -3,17 +3,17 @@ require_relative 'app'
 def start_app(app, choice)
   case choice
   when 1
-    app.list_books
+    app.books.list_books
   when 2
-    app.list_people
+    app.people.list_people
   when 3
-    app.create_person
+    app.people.create_person
   when 4
-    app.create_book
+    app.books.create_book
   when 5
-    app.create_rental
+    app.rentals.create_rental(app.books.list, app.people)
   when 6
-    app.list_rentals
+    app.rentals.list_rentals(app.people)
   else
     puts 'Invalid choice'
   end
