@@ -16,15 +16,15 @@ class RentalRecords
     end
     book_choice = gets.chomp.to_i - 1
     puts 'select a person from the following list by number (not id)'
-    return unless people.length.positive?
+    return unless people.list.length.positive?
 
-    people.each_with_index do |person, i|
+    people.list.each_with_index do |person, i|
       puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     person_choice = gets.chomp.to_i - 1
     puts 'Date: '
     date_choice = gets.chomp
-    rental = Rental.new(date_choice, people[person_choice], books[book_choice])
+    rental = Rental.new(date_choice, people.list[person_choice], books[book_choice])
     @list << rental
     puts 'Rental created successfully'
   end
@@ -33,7 +33,7 @@ class RentalRecords
     if @list.length.positive?
       print 'ID of person : '
       person_id = gets.chomp.to_i
-      people.each do |person|
+      people.list.each do |person|
         next unless person.id == person_id
 
         person.rentals.each_with_index do |rental, _i|
